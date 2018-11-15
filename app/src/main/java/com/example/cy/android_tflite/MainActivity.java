@@ -206,9 +206,11 @@ public class MainActivity extends AppCompatActivity {
 
                 int fail = 0;
                 int pass = 0;
+                int correctLabel;
 
                 long startTime = SystemClock.uptimeMillis();
-                for(int i: TestLabel){
+                for(int i=0; i<TestLabel.size(); i++){
+                    correctLabel = TestLabel.get(i);
                     intputData.rewind();
                     List<Integer> d = TestData.get(i);
                     for(int j=0; j < d.size(); j++){
@@ -222,13 +224,13 @@ public class MainActivity extends AppCompatActivity {
                     for(int k = 0; k<labelList.size(); k++){
                         if(labelProbArray[0][k] > prob){
                             prob = labelProbArray[0][k];
-                            maxProbIdx = i;
+                            maxProbIdx = k;
                         }
                         //Log.d(TAG, "pose " + labelList.get(i) + ": " +Float.toString(labelProbArray[0][i]));
                     }
 
-                    Log.d(TAG, "label:" + i + ", predict: " + labelList.get(maxProbIdx) + "("+ maxProbIdx + ") - " + Float.toString(labelProbArray[0][maxProbIdx]) + "\n");
-                    if(i == maxProbIdx)
+                    Log.d(TAG, "label:" + correctLabel + ", predict: " + maxProbIdx + "("+ labelList.get(maxProbIdx) + ") - " + Float.toString(labelProbArray[0][maxProbIdx]) + "\n");
+                    if(correctLabel == maxProbIdx)
                         pass++;
                     else
                         fail++;
