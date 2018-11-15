@@ -246,6 +246,12 @@
             android:layout_height="wrap_content"
             android:text="START" />
 
+        <Button
+            android:id="@+id/btnTestAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test All" />
+
         <TextView
             android:id="@+id/tv_output_label"
             android:layout_width="match_parent"
