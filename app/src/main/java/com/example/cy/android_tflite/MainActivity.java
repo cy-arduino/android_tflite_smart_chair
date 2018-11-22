@@ -32,15 +32,12 @@ Gama , Gama_懶人斜躺_122601.982.jpg , 懶人斜躺 , 6 , 13997 , 9587 , 7152
 Gama , Gama_前傾_122608.820.jpg , 前傾 , 7 , 9986 , 15 , 7176 , 8272 , 8825 , 10304 , 40 , 5940 , 9502 , 7929 , 4448
 */
 public class MainActivity extends AppCompatActivity {
+    private final String TAG = "android_tflite";
 
     private Interpreter tflite;
     private List<String> labelList;
-    //private ByteBuffer inputData = null;
     private float[][] labelProbArray = null;
     private ByteBuffer intputData = null;
-
-
-    private final String TAG = "android_rflite";
 
     private final String ModelFile = "Keras_CY_smart_chair.tflite";
     private final String LabelFile = "Keras_CY_smart_chair.tflite.labels";
@@ -236,8 +233,8 @@ public class MainActivity extends AppCompatActivity {
                         fail++;
                 }
                 long endTime = SystemClock.uptimeMillis();
-                Log.d(TAG, "pass: " + pass + ", fail: " + fail + ", total " + Long.toString(endTime - startTime) + "ms\n");
-                String outputStr = "pass: " + pass + ", fail: " + fail + ", total " + Long.toString(endTime - startTime) + "ms\n";
+                Log.d(TAG, "pass: " + pass + ", fail: " + fail + "accuracy: " + (float)pass/(pass+fail) +", total " + Long.toString(endTime - startTime) + "ms\n");
+                String outputStr = "pass: " + pass + ", fail: " + fail + "accuracy: " + (float)pass/(pass+fail) +", total " + Long.toString(endTime - startTime) + "ms\n";
                 outputText.setText(outputStr);
             }
         });
@@ -254,14 +251,13 @@ public class MainActivity extends AppCompatActivity {
             tflite = new Interpreter(loadModelFile(this));
             labelList = loadLabelList(this);
             labelProbArray = new float[1][labelList.size()];
-            intputData = ByteBuffer.allocateDirect(22*4); //11+11 sensors, float: 4bytes
+            intputData = ByteBuffer.allocateDirect(22*4); //11+11 sensors, java float: 4bytes
             intputData.order(ByteOrder.nativeOrder());
 
             TestLabel = loadTestLabel(this);
             TestData = loadTestData(this);
 
             //Log.d(TAG, "labelList.size=" + labelList.size());
-
 
         }catch(Exception e){
             Log.e(TAG, "got exception: " + e);
